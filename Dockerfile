@@ -1,14 +1,6 @@
-FROM centos:centos7
+FROM ecarre/rhc-install
 MAINTAINER Emmanuel CARRE <emmanuel.b.carre@gmail.com>
 
-RUN	yum update -y && \
-	yum install -y ruby \
-		rubygem \
-		rubygem-json \
-		rubygem-parseconfig \
-		git \
-		ssh && \
-	gem install rhc && \
-	gem update rhc
+ENTRYPOINT ["rhc"]
 
 CMD ["help"]
