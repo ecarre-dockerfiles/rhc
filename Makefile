@@ -3,6 +3,8 @@
 IMAGE_NAME = ecarre/rhc
 DATA_CONTAINER = rhc-data
 
+CONTAINER := $(shell docker ps -a -f name=$(DATA_CONTAINER) | grep $(DATA_CONTAINER) | awk '{print $$NF}')
+
 .PHONY: all build clean help
 
 # By default make command, without argument, call the first target in Makefile. In this case: help
@@ -23,4 +25,6 @@ build:
 	docker build --rm -t $(IMAGE_NAME) .
 
 init:
+ifneq ($(CONTAINER), $(DATA_CONTAINER))
 	docker create -v /root/.openshift -v /root/.ssh --name $(DATA_CONTAINER) debian:jessie /bin/true
+endif
